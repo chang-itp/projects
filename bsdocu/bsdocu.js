@@ -5,7 +5,7 @@ var camera, scene, renderer;
 var video, image, imageContext,
     imageReflection, imageReflectionContext, imageReflectionGradient,
     texture, textureReflection;
-    
+
 var mesh;
 var mouseX = 0;
 var mouseY = 0;
@@ -35,7 +35,6 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
-    video = document.getElementById('video');
 
     //
 
@@ -170,10 +169,17 @@ function animate() {
 }
 
 function render() {
+    if (!video) {
+      video = document.getElementById('video');
+    }
+    if (!video) {
+      return;
+    }
 
     camera.position.x += (mouseX - camera.position.x) * 0.05;
     camera.position.y += (-mouseY - camera.position.y) * 0.05;
     camera.lookAt(scene.position);
+
 
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
 
