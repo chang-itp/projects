@@ -18,29 +18,29 @@ animate();
 
 function init() {
 
-    container = document.createElement('div');
-    document.body.appendChild(container);
+  container = document.createElement( 'div' );
+      document.body.appendChild( container );
+      var info = document.createElement( 'div' );
+      info.style.position = 'absolute';
+      info.style.top = '10px';
+      info.style.width = '100%';
+      info.style.textAlign = 'center';
+      info.innerHTML = 'Muse';
+      container.appendChild( info );
 
-    var info = document.createElement('div');
-    info.style.position = 'absolute';
-    info.style.top = '10px';
-    info.style.width = '100%';
-    info.style.textAlign = 'center';
-    info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - video demo. playing <a href="http://durian.blender.org/" target="_blank" rel="noopener">sintel</a> trailer';
-    container.appendChild(info);
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.z = 1000;
+    camera.position.z = 1500;
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf0f0f0);
+    scene.background = new THREE.Color(0x000000);
 
 
     //
 
     image = document.createElement('canvas');
-    image.width = 480;
-    image.height = 204;
+    image.width = 1920;
+    image.height = 180;
 
     imageContext = image.getContext('2d');
     imageContext.fillStyle = '#000000';
@@ -54,16 +54,16 @@ function init() {
     });
 
     imageReflection = document.createElement('canvas');
-    imageReflection.width = 480;
-    imageReflection.height = 204;
+    imageReflection.width = 1920;
+    imageReflection.height = 180;
 
     imageReflectionContext = imageReflection.getContext('2d');
     imageReflectionContext.fillStyle = '#000000';
-    imageReflectionContext.fillRect(0, 0, 480, 204);
+    imageReflectionContext.fillRect(0, 0, 1920, 180);
 
     imageReflectionGradient = imageReflectionContext.createLinearGradient(0, 0, 0, 204);
-    imageReflectionGradient.addColorStop(0.2, 'rgba(240, 240, 240, 1)');
-    imageReflectionGradient.addColorStop(1, 'rgba(240, 240, 240, 0.8)');
+    imageReflectionGradient.addColorStop(0.2, 'rgba(0, 0, 0, 1)');
+    imageReflectionGradient.addColorStop(1, 'rgba(0, 0, 0, 0.8)');
 
     textureReflection = new THREE.Texture(imageReflection);
 
@@ -75,7 +75,7 @@ function init() {
 
     //
 
-    var plane = new THREE.PlaneGeometry(480, 204, 4, 4);
+    var plane = new THREE.PlaneGeometry(1920, 180, 4, 4);
 
     mesh = new THREE.Mesh(plane, material);
     mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.5;
@@ -90,8 +90,8 @@ function init() {
     //
 
     var separation = 150;
-    var amountx = 10;
-    var amounty = 10;
+    var amountx = 20;
+    var amounty = 30;
 
     var PI2 = Math.PI * 2;
     var material = new THREE.SpriteCanvasMaterial({
@@ -167,7 +167,17 @@ function animate() {
     stats.update();
 
 }
-
+function handleKeyPress() {
+  document.body.onkeyup = function(e) {
+    if(e.keyCode == 32) {
+      if(video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+  }
+}
 function render() {
     if (!video) {
       video = document.getElementById('video');
@@ -192,7 +202,7 @@ function render() {
 
     imageReflectionContext.drawImage(image, 0, 0);
     imageReflectionContext.fillStyle = imageReflectionGradient;
-    imageReflectionContext.fillRect(0, 0, 480, 204);
+    imageReflectionContext.fillRect(0, 0, 1920, 180);
 
     renderer.render(scene, camera);
 
